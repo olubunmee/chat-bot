@@ -6,5 +6,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface ChatService {
-    ChatResponse chatGptResponse(ChatRequest request);
+    ChatResponse chatGptResponse(String id, ChatRequest request);
 }
