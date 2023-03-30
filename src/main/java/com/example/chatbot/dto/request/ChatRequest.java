@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChatRequest {
-    private String model;
+    private String model = "gpt-3.5-turbo";
     private List<Message> messages;
-    private double temperature;
+    private double temperature = 0.1;
 }

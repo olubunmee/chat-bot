@@ -8,6 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class Message {
-    private String role;
+    private String role = "user";
     private String content;
 }
