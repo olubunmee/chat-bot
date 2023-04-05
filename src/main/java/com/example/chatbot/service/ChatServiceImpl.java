@@ -2,6 +2,7 @@ package com.example.chatbot.service;
 
 import com.example.chatbot.dto.request.ChatRequest;
 import com.example.chatbot.dto.response.ChatResponse;
+import com.example.chatbot.model.ChatResponseModel;
 import com.example.chatbot.model.ResponseDatabase;
 import com.example.chatbot.model.User;
 import com.example.chatbot.repository.ResponseRepository;
@@ -41,17 +42,20 @@ public class ChatServiceImpl implements ChatService {
         header.add(AUTHORIZATION, openApiKey);
 
         HttpEntity<?> httpEntity = new HttpEntity<>(request, header);
-        ResponseEntity<Object> response = restTemplate.exchange(URL, POST, httpEntity, Object.class);
-        Object neededResponse = response.getBody();
+        ChatResponseModel response = restTemplate.postForObject(URL, httpEntity, ChatResponseModel.class);
+
+        String content = null;
+        if (response != null && response.getChoices() != null && !response.getChoices().isEmpty()) {
+            content = response.getChoices().get(0).getText().getContent();
+        }
 
         ResponseDatabase savedResponse = new ResponseDatabase();
-        savedResponse.setResponse(neededResponse);
-        responseRepository.save(savedResponse);
+        savedResponse.setResponse(content);
         user.setResponseDatabase(savedResponse);
         userRepository.save(user);
 
         return ChatResponse.builder()
-                .response(neededResponse)
+                .response(content)
                 .build();
     }
 }

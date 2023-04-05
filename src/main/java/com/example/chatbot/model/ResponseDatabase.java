@@ -9,6 +9,6 @@ import lombok.*;
 @Builder
 public class ResponseDatabase {
     private String id;
-    private Object response;
+    private String response;
 
 }
